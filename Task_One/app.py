@@ -17,11 +17,13 @@ def greet_user():
     
     else:
         client_ip = request.remote_addr
+        headers = None
     location = get_location(client_ip)
     temp = get_temperature(location)
     return jsonify({
         "client_ip": client_ip,
         "location": location,
+        "headers": headers,
         "greeting": f"Hello, {visitor_name}!, the temperature is {temp} degree Celcius in {location}"
     }), 200
 
