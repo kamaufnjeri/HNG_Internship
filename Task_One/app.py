@@ -15,6 +15,8 @@ def home():
 @app.route('/api/hello', methods=["GET"])
 def greet_user():
     visitor_name = request.args.get('visitor_name', "Guest")
+    if visitor_name.startswith("") and visitor_name.endswith(""):
+        visitor_name = visitor_name[1:-2]
 
     """getting IP from the request header"""
     if 'X-Forwarded-For' in request.headers:
