@@ -14,9 +14,7 @@ def home():
 """API Endpoint to get IP address, location and temparature"""
 @app.route('/api/hello', methods=["GET"])
 def greet_user():
-    visitor_name = request.args.get('visitor_name', "Guest")
-    if visitor_name.startswith("") and visitor_name.endswith(""):
-        visitor_name = visitor_name[1:-2]
+    visitor_name = request.args.get('visitor_name', "Guest").strip('"')
 
     """getting IP from the request header"""
     if 'X-Forwarded-For' in request.headers:
@@ -47,7 +45,7 @@ def greet_user():
     return jsonify({
         "client_ip": client_ip,
         "location": location,
-        "greeting": f"Hello, {visitor_name}!, the temperature is {temp} degrees Celcius in {location}"
+        "greeting": f"Hello, {visitor_name}!, the temperature is {temp} degrees Celsius in {location}"
     }), 200
 
 
