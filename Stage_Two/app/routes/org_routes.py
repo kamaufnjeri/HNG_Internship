@@ -73,6 +73,15 @@ def get_organization(orgId):
                 "statusCode": 400
             }), 400
         
+        org = Organization.query.filter_by(id=orgId).first()
+
+        if not org:
+            return jsonify({
+                "status": "Bad Request",
+                "message": "Organization not found",
+                "statusCode": 400
+            }), 400
+        
         for org in user_orgs:
             if org.get('orgId') == orgId:
                 return jsonify({
@@ -83,7 +92,7 @@ def get_organization(orgId):
             
         return jsonify({
             "status": "Bad Request",
-            "message": "Client error",
+            "message": "Can't access this organization's information",
             "statusCode": 400
         }), 400
 
