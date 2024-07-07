@@ -92,25 +92,25 @@ class TestAuthenticationAndOrganizations(unittest.TestCase):
             except Exception as e:
                 self.fail(f"Token validation failed: {str(e)}")
 
-    def test_get_user_organization(self):
-        """User one organizations with correct token"""
-        response = self.app.get('/api/organizations', headers={'Authorization': f"Bearer {self.user_one_access_token}"}, follow_redirects=True)
+    def test_get_user_organisation(self):
+        """User one organisations with correct token"""
+        response = self.app.get('/api/organisations', headers={'Authorization': f"Bearer {self.user_one_access_token}"}, follow_redirects=True)
         self.assertEqual(response.status_code, 200)
         data = response.json.get('data')
-        self.assertEqual(len(data['organizations']), 1)
-        self.assertEqual(data['organizations'][0]['name'], "John's Organization")
+        self.assertEqual(len(data['organisations']), 1)
+        self.assertEqual(data['organisations'][0]['name'], "John's Organisation")
 
-        """User two organizations with correct token"""
-        response = self.app.get('/api/organizations', headers={'Authorization': f"Bearer {self.user_two_access_token}"}, follow_redirects=True)
+        """User two organisations with correct token"""
+        response = self.app.get('/api/organisations', headers={'Authorization': f"Bearer {self.user_two_access_token}"}, follow_redirects=True)
         self.assertEqual(response.status_code, 200)
         data_two = response.json.get('data')
-        self.assertEqual(len(data_two['organizations']), 1)
-        self.assertEqual(data_two['organizations'][0]['name'], "Jane's Organization")
+        self.assertEqual(len(data_two['organisations']), 1)
+        self.assertEqual(data_two['organisations'][0]['name'], "Jane's Organisation")
 
-        """User one with user two token and user one organization Id"""
-        user_one_organization_id = data['organizations'][0]['orgId']
+        """User one with user two token and user one organisation Id"""
+        user_one_organization_id = data['organisations'][0]['orgId']
         response = self.app.get(
-            f'/api/organizations/{user_one_organization_id}',
+            f'/api/organisations/{user_one_organization_id}',
             headers={'Authorization': f"Bearer {self.user_two_access_token}"},
             follow_redirects=True
         )
@@ -138,13 +138,13 @@ class TestAuthenticationAndOrganizations(unittest.TestCase):
         self.assertEqual(data.get('user').get('phone'), None)
 
         response = self.app.get(
-            '/api/organizations',
+            '/api/organisations',
             headers={'Authorization': f"Bearer {data.get('accessToken')}"},
             follow_redirects=True
         )
         self.assertEqual(response.status_code, 200)
         org_data= response.json.get('data')
-        self.assertEqual(org_data['organizations'][0]['name'], "test's Organization")
+        self.assertEqual(org_data['organisations'][0]['name'], "test's Organisation")
 
     def test_registration_missing_required_fields(self):
         test_user = {

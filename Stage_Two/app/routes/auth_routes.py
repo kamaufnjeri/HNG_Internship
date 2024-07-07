@@ -26,9 +26,9 @@ def create_user():
         db.session.add(new_user)
 
         if new_user.firstName[-1] == 's':
-            organization_name = f"{new_user.firstName}' Organization"
+            organization_name = f"{new_user.firstName}' Organisation"
         else:
-            organization_name = f"{new_user.firstName}'s Organization"
+            organization_name = f"{new_user.firstName}'s Organisation"
 
         organization_data = {"name": organization_name}
         new_organization = org_utils.create_organization(organization_data)

@@ -4,7 +4,7 @@ from app.utils import UserUtils, OrganizationUtils
 from app.models import User, Organization
 from app import db
 
-org_bp = Blueprint('org_bp', __name__, url_prefix='/api/organizations')
+org_bp = Blueprint('org_bp', __name__, url_prefix='/api/organisations')
 user_utils = UserUtils()
 org_utils = OrganizationUtils()
 
@@ -29,15 +29,15 @@ def get_user_organizations():
         if not user_orgs:
             return jsonify({
                 "status": "Bad Request",
-                "message": "User organizations not found",
+                "message": "User organisations not found",
                 "statusCode": 400
             }), 400
 
         return jsonify({
             "status": "success",
-		    "message": "User organizations retrieved successfully",
+		    "message": "User organisations retrieved successfully",
             "data": {
-                "organizations": user_orgs
+                "organisations": user_orgs
             }
         }), 200
 
@@ -69,7 +69,7 @@ def get_organization(orgId):
         if not user_orgs:
              return jsonify({
                 "status": "Bad Request",
-                "message": "User organizations not found",
+                "message": "User organisations not found",
                 "statusCode": 400
             }), 400
         
@@ -78,7 +78,7 @@ def get_organization(orgId):
         if not org:
             return jsonify({
                 "status": "Bad Request",
-                "message": "Organization not found",
+                "message": "Organisation not found",
                 "statusCode": 400
             }), 400
         
@@ -86,13 +86,13 @@ def get_organization(orgId):
             if org.get('orgId') == orgId:
                 return jsonify({
                     "status": "success",
-                    "message": "Organization retrieved successfully",
+                    "message": "Organisation retrieved successfully",
                     "data": org
                 }), 200
             
         return jsonify({
             "status": "Bad Request",
-            "message": "Can't access this organization's information",
+            "message": "Can't access this organisation's information",
             "statusCode": 400
         }), 400
 
@@ -184,7 +184,7 @@ def add_user_to_organization(orgId):
         if not org:
             return jsonify({
                 "status": "Bad Request",
-                "message": "Organization not found",
+                "message": "Organisation not found",
                 "statusCode": 400
             }), 400
         
@@ -195,7 +195,7 @@ def add_user_to_organization(orgId):
             if org.get('orgId') == orgId:
                 return jsonify({
                     "status": "Bad Request",
-                    "message": "User already in organization",
+                    "message": "User already in organisation",
                     "statusCode": 400
                 }), 400
 
@@ -214,7 +214,7 @@ def add_user_to_organization(orgId):
             
         return jsonify({
             "status": "Bad Request",
-            "message": "Logged in user not in organization",
+            "message": "Logged in user not in organisation",
             "statusCode": 400
         }), 400
                         
