@@ -1,21 +1,30 @@
 from flask import Flask, jsonify
 from flask_sqlalchemy import SQLAlchemy
-from config import Config
+from config import DevelopmentConfig, TestingConfig
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
 
-app = Flask(__name__)
-app.config.from_object(Config)
-db = SQLAlchemy(app)
-bcrypt = Bcrypt(app)
-jwt = JWTManager(app)
+db = SQLAlchemy()
+bcrypt = Bcrypt()
+jwt = JWTManager()
 
 
-@app.route('/', methods=['GET'])
-def home():
-    return jsonify({"message": "Welcome to backend stage two task for the HNG Internship"})
+def create_app(config_class):
+    app = Flask(__name__)
+    app.config.from_object(config_class)
 
-from app.routes import *
-app.register_blueprint(auth_bp)
-app.register_blueprint(user_bp)
-app.register_blueprint(org_bp)
+    db.init_app(app)
+    bcrypt.init_app(app)
+    jwt.init_app(app)
+
+    @app.route('/', methods=['GET'])
+    def home():
+        return jsonify({"message": "Welcome to backend stage two task for the HNG Internship"})
+    
+
+    from app.routes import auth_bp, user_bp, org_bp
+    app.register_blueprint(auth_bp)
+    app.register_blueprint(user_bp)
+    app.register_blueprint(org_bp)
+
+    return app

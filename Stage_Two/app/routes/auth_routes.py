@@ -19,9 +19,6 @@ def create_user():
 
         if errors:
             return jsonify({
-                "status": "Bad request",
-                "message": "Registration unsuccessful",
-                "statusCode": 422,
                 "errors": errors
             }), 422
         
@@ -55,8 +52,7 @@ def create_user():
         return jsonify({
             "status": "Bad request",
             "message": "Registration unsuccessful",
-            "statusCode": 400,
-            "errors": [str(e)]
+            "statusCode": 400
         }), 400
     
 
@@ -67,18 +63,23 @@ def login():
         info, code = user_utils.login_user(data)
 
         if code != 200:
-            return jsonify({
-            "status": "Bad request",
-            "message": "Authentication failed",
-            "statusCode": code,
-            "errors": info
-        }), code
+            if code == 422:
+                return jsonify({
+                    "errors": info
+                }), code
+            
+            if code == 401:
+                return jsonify({
+                    "status": "Bad request",
+                    "message": "Authentication failed",
+                    "statusCode": code,
+                }), code
 
         user = info
         accessToken = create_access_token(identity=user.id)
         return jsonify({
             "status": "success",
-            "message": "Registration successful",
+            "message": "Login successful",
             "data": {
                 "accessToken": accessToken,
                 "user": user.to_dict()
@@ -89,6 +90,5 @@ def login():
         return jsonify({
             "status": "Bad request",
             "message": "Authentication failed",
-            "statusCode": 401,
-            "errors": [str(e)]
+            "statusCode": 401
         }), 401
