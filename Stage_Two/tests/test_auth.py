@@ -116,7 +116,7 @@ class TestAuthenticationAndOrganizations(unittest.TestCase):
         )
         self.assertEqual(response.status_code, 400)
         self.assertEqual(
-            {'message': 'Client error', 'status': 'Bad Request', 'statusCode': 400},
+            {'message': "Can't access this organisation's information", 'status': 'Bad Request', 'statusCode': 400},
             response.json
         )
 

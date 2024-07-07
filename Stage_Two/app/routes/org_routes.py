@@ -118,7 +118,7 @@ def create_organization():
         if not data.get('name') or not current_user:
             return jsonify({
                 "status": "Bad Request",
-                "message": "Client error",
+                "message": "name is required",
                 "statusCode": 400,
             }), 400
         
@@ -214,7 +214,7 @@ def add_user_to_organization(orgId):
             
         return jsonify({
             "status": "Bad Request",
-            "message": "Logged in user not in organisation",
+            "message": "You cannot add user to organisation",
             "statusCode": 400
         }), 400
                         
