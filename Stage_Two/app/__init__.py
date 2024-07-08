@@ -28,3 +28,5 @@ def create_app(config_class):
     app.register_blueprint(org_bp)
 
     return app
+
+app = create_app(DevelopmentConfig)
