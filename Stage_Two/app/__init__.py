@@ -29,4 +29,3 @@ def create_app(config_class):
 
     return app
 
-app = create_app(DevelopmentConfig)
